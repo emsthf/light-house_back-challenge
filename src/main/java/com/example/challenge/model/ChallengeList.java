@@ -20,10 +20,9 @@ public class ChallengeList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GenericGenerator(name = "system-vvid", strategy = "vvid")
-    private int id;
-    private String userId;
-    private int challengeId;
+    private Long id;
+    @OneToMany(mappedBy = "challengeList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Challenge challenge;
     private String challengeTitle;
     private LocalDate startDay;
     private LocalDate endDay;

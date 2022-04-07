@@ -1,5 +1,6 @@
 package com.example.challenge.service;
 
+import com.example.challenge.dto.ChallengeDto;
 import com.example.challenge.model.Challenge;
 import com.example.challenge.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,32 +17,47 @@ import java.util.Optional;
 public class ChallengeServiceImpl implements ChallengeService{
 
     private final ChallengeRepository challengeRepository;
+    private final ChallengeListService challengeListService;
 
     @Transactional
     @Override
-    public Challenge addChallenge(Challenge challenge) {
+    public void addChallenge(ChallengeDto challengeDto) {
         log.info("add challenge");
-        return challengeRepository.save(challenge);
+        challengeRepository.save(Challenge.builder()
+                .id(null)
+                .challengeList(challengeListService.getChallengeListById(challengeDto.getChallengeListId()).get())
+                .challengeTitle(challengeDto.getChallengeTitle())
+                .startDay(challengeDto.getStartDay())
+                .endDay(challengeDto.getEndDay())
+                .weekCount(challengeDto.getWeekCount())
+                .totalCount(challengeDto.getTotalCount())
+                .doing(challengeDto.getDoing())
+                .challengeState(challengeDto.getChallengeState())
+                .challengedesc(challengeDto.getChallengedesc())
+                .build());
     }
 
     @Transactional
     @Override
-    public Challenge editChallenge(Challenge challenge) {
-        log.info("edit challenge. {}", challengeRepository.findById(challenge.getId()).get());
-        Challenge editedChallenge = new Challenge();
-        editedChallenge= Challenge.builder()
-                .id(challenge.getId())
-                .challengeTitle(challenge.getChallengeTitle())
-                .startDay(challenge.getStartDay())
-                .endDay(challenge.getEndDay())
-                .weekCount(challenge.getWeekCount())
-                .totalCount(challenge.getTotalCount())
-                .doing(challenge.getDoing())
-                .challengeState(challenge.getChallengeState())
-                .challengedesc(challenge.getChallengedesc())
-                .build();
-        challengeRepository.save(challenge);
-        return editedChallenge;
+    public void editChallenge(Long id, ChallengeDto challengeDto) {
+        log.info("edit challenge. {}", challengeRepository.findById(challengeDto.getChallengeListId()).get());
+        if (challengeRepository.findById(id).isPresent()) {
+            Challenge editedChallenge = Challenge.builder()
+                    .id(challengeDto.getId())
+                    .challengeList(challengeListService.getChallengeListById(challengeDto.getChallengeListId()).get())
+                    .challengeTitle(challengeDto.getChallengeTitle())
+                    .startDay(challengeDto.getStartDay())
+                    .endDay(challengeDto.getEndDay())
+                    .weekCount(challengeDto.getWeekCount())
+                    .totalCount(challengeDto.getTotalCount())
+                    .doing(challengeDto.getDoing())
+                    .challengeState(challengeDto.getChallengeState())
+                    .challengedesc(challengeDto.getChallengedesc())
+                    .build();
+            challengeRepository.save(editedChallenge);
+        }else {
+            log.error("edit challenge error.");
+        }
     }
 
     @Transactional
