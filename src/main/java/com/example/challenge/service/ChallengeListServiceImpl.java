@@ -1,6 +1,8 @@
 package com.example.challenge.service;
 
 
+
+import com.example.challenge.dto.ChallengeListDto;
 import com.example.challenge.model.ChallengeList;
 import com.example.challenge.repository.ChallengeListRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,36 +20,52 @@ import java.util.Optional;
 public class ChallengeListServiceImpl implements ChallengeListService {
 
     private final ChallengeListRepository challengeListRepository;
+    private final ChallengeService challengeService;
 
     @Transactional
     @Override
-    public ChallengeList addChallengeList(ChallengeList challengeList) {
+    public ChallengeList addChallengeList(ChallengeListDto challengeListDto) {
         log.info("add challenge");
-        return challengeListRepository.save(challengeList);
+        return challengeListRepository.save(ChallengeList.builder()
+                .id(null)
+                .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
+                .challengeTitle(challengeListDto.getChallengeTitle())
+                .startDay(challengeListDto.getStartDay())
+                .endDay(challengeListDto.getEndDay())
+                .weekCount(challengeListDto.getWeekCount())
+                .period(challengeListDto.getPeriod())
+                .totalCount(challengeListDto.getTotalCount())
+                .count(challengeListDto.getCount())
+                .doing(challengeListDto.getDoing())
+                .state(challengeListDto.getState())
+                .result(challengeListDto.getResult())
+                .build());
     }
 
     @Transactional
     @Override
-    public ChallengeList editChallengeList(ChallengeList challengeList) {
-//        log.info("edit challengeList. {}", challengeListRepository.findById(challengeList.getId(getChallengeListById(id).get());
-        ChallengeList editedChallengeList = new ChallengeList();
-        editedChallengeList = ChallengeList.builder()
-                .id(challengeList.getId())
-                .userId(challengeList.getUserId())
-                .challengeId(challengeList.getChallengeId())
-                .challengeTitle(challengeList.getChallengeTitle())
-                .startDay(challengeList.getStartDay())
-                .endDay(challengeList.getEndDay())
-                .weekCount(challengeList.getWeekCount())
-                .period(challengeList.getPeriod())
-                .totalCount(challengeList.getTotalCount())
-                .count(challengeList.getCount())
-                .doing(challengeList.getDoing())
-                .state(challengeList.getState())
-                .result(challengeList.getResult())
-                .build();
-        challengeListRepository.save(challengeList);
-        return editedChallengeList;
+    public void editChallengeList(Long id, ChallengeListDto challengeListDto) {
+
+        log.info("edit challengeList. {}", challengeListRepository.findById(challengeListDto.getId()));
+        if(challengeListRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
+            ChallengeList editedChallengeList = ChallengeList.builder()
+                    .id(challengeListDto.getId())
+                    .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
+                    .challengeTitle(challengeListDto.getChallengeTitle())
+                    .startDay(challengeListDto.getStartDay())
+                    .endDay(challengeListDto.getEndDay())
+                    .weekCount(challengeListDto.getWeekCount())
+                    .period(challengeListDto.getPeriod())
+                    .totalCount(challengeListDto.getTotalCount())
+                    .count(challengeListDto.getCount())
+                    .doing(challengeListDto.getDoing())
+                    .state(challengeListDto.getState())
+                    .result(challengeListDto.getResult())
+                    .build();
+            challengeListRepository.save(editedChallengeList);
+        } else{
+            log.error("edit challengeList error.");
+        }
     }
 
     @Transactional
@@ -67,7 +85,11 @@ public class ChallengeListServiceImpl implements ChallengeListService {
     @Transactional
     @Override
     public void delChallengeList(Long id) {
-        log.info("delete challengeList by id {}.", id);
-        challengeListRepository.deleteById(id);
+        if (challengeListRepository.findById(id).isPresent()){
+            log.info("delete challengeList by id {}.", id);
+            challengeListRepository.deleteById(id);
+        } else {
+            log.error("delete challengeList error.");
+        }
     }
 }

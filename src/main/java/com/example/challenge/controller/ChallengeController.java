@@ -1,6 +1,8 @@
 package com.example.challenge.controller;
 
 
+
+import com.example.challenge.dto.ChallengeDto;
 import com.example.challenge.model.Challenge;
 import com.example.challenge.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +20,10 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping("/challenge")
-    public void add(@RequestBody Challenge challenge){challengeService.addChallenge(challenge);}
+    public void add(@RequestBody ChallengeDto challengeDto){challengeService.addChallenge(challengeDto);}
 
     @PutMapping("/challenge")
-    public void edit(@RequestBody Challenge challenge){challengeService.editChallenge(challenge);}
+    public void edit(@PathVariable Long id, @RequestBody ChallengeDto challengeDto){challengeService.editChallenge(id, challengeDto);}
 
     @GetMapping("/challenge")
     public List<Challenge> getAll(){return challengeService.getAllChallenge();}

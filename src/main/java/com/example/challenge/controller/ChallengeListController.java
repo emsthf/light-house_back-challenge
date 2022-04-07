@@ -1,6 +1,6 @@
 package com.example.challenge.controller;
 
-
+import com.example.challenge.dto.ChallengeListDto;
 import com.example.challenge.model.ChallengeList;
 import com.example.challenge.service.ChallengeListService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +18,10 @@ public class ChallengeListController {
     private final ChallengeListService challengeListService;
 
     @PostMapping("/challengeList")
-    public void add(@RequestBody ChallengeList challengeList){challengeListService.addChallengeList(challengeList);}
+    public void add(@RequestBody ChallengeListDto challengeListDto){challengeListService.addChallengeList(challengeListDto);}
 
     @PutMapping("/challengeList")
-    public void edit(@RequestBody ChallengeList challengeList){challengeListService.editChallengeList(challengeList);}
+    public void edit(@PathVariable Long id, @RequestBody ChallengeListDto challengeListDto){challengeListService.editChallengeList(id, challengeListDto);}
 
     @GetMapping("/challengeList")
     public List<ChallengeList> getAll(){return challengeListService.getAllChallengeList();}
