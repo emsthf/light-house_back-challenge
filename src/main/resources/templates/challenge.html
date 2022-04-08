@@ -7,7 +7,7 @@
 <body>
 <h1>파일 업로드</h1> <hr>
 
-<form th:action="@{/userImg}" method="post" enctype="multipart/form-data">
+<form th:action="@{/challengeImg}" method="post" enctype="multipart/form-data">
     <!--    제목 : <input type="text" name="title"> <br>-->
     파일 : <input type="file" name="file"> <br>
     <button>등록하기</button>
@@ -15,15 +15,15 @@
 
 <hr>
 
-<div th:each="userImg : ${userImgList}">
+<div th:each="challengeImg : ${challengeImgList}">
     <div style="margin-bottom: 30px">
         <p th:inline="text"> </p>
-        <img th:src="${userImg.imgFullPath}" style="width: 500px; height: 300px;">
+        <img th:src="${challengeImg.imgFullPath}" style="width: 500px; height: 300px;">
     </div>
 
-    <form th:action="@{/userImg}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" th:value="${userImg.id}">
-        <input type="hidden" name="url" th:value="${userImg.url}">
+    <form th:action="@{/challengeImg}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="${challengeImg.id}">
+        <input type="hidden" name="url" th:value="${challengeImg.url}">
         파일 : <input type="file" name="file"> <br>
         <button>수정하기</button>
     </form>
