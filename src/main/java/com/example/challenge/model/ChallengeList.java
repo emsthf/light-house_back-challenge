@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,17 +22,14 @@ public class ChallengeList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "challengeList", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    private Long challengeId;
+    @ManyToOne
+    @JoinColumn(name = "challengeId")
     private Challenge challenge;
-    private String challengeTitle;
-    private LocalDate startDay;
-    private LocalDate endDay;
-    private int weekCount;
-    private int period;
-    private int totalCount;
-    private int count;
-    private int doing;
-    private int state;
-    private int result;
+    private String userName;
+    private String userPhone;
+    private String userEmail;
+    private int challengeListCount; //
+    private int challengeListState; //
 
 }
