@@ -1,6 +1,5 @@
 package com.example.challenge.service;
 
-
 import com.example.challenge.dto.ChallengeListDto;
 import com.example.challenge.model.ChallengeList;
 

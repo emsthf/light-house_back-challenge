@@ -1,8 +1,8 @@
 package com.example.challenge.service;
 
 
-
 import com.example.challenge.dto.ChallengeListDto;
+import com.example.challenge.model.Challenge;
 import com.example.challenge.model.ChallengeList;
 import com.example.challenge.repository.ChallengeListRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +29,12 @@ public class ChallengeListServiceImpl implements ChallengeListService {
         return challengeListRepository.save(ChallengeList.builder()
                 .id(null)
                 .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
-                .challengeTitle(challengeListDto.getChallengeTitle())
-                .startDay(challengeListDto.getStartDay())
-                .endDay(challengeListDto.getEndDay())
-                .weekCount(challengeListDto.getWeekCount())
-                .period(challengeListDto.getPeriod())
-                .totalCount(challengeListDto.getTotalCount())
-                .count(challengeListDto.getCount())
-                .doing(challengeListDto.getDoing())
-                .state(challengeListDto.getState())
-                .result(challengeListDto.getResult())
+//                        .challengeId(challengeListDto.getChallengeId())
+                .userName(challengeListDto.getUserName())
+                .userPhone(challengeListDto.getUserPhone())
+                .userEmail(challengeListDto.getUserEmail())
+                .challengeListCount(challengeListDto.getChallengeListCount())
+                .challengeListState(challengeListDto.getChallengeListState())
                 .build());
     }
 
@@ -51,16 +47,12 @@ public class ChallengeListServiceImpl implements ChallengeListService {
             ChallengeList editedChallengeList = ChallengeList.builder()
                     .id(challengeListDto.getId())
                     .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
-                    .challengeTitle(challengeListDto.getChallengeTitle())
-                    .startDay(challengeListDto.getStartDay())
-                    .endDay(challengeListDto.getEndDay())
-                    .weekCount(challengeListDto.getWeekCount())
-                    .period(challengeListDto.getPeriod())
-                    .totalCount(challengeListDto.getTotalCount())
-                    .count(challengeListDto.getCount())
-                    .doing(challengeListDto.getDoing())
-                    .state(challengeListDto.getState())
-                    .result(challengeListDto.getResult())
+//                .challengeId(challengeListDto.getChallengeId())
+                    .userName(challengeListDto.getUserName())
+                    .userPhone(challengeListDto.getUserPhone())
+                    .userEmail(challengeListDto.getUserEmail())
+                    .challengeListCount(challengeListDto.getChallengeListCount())
+                    .challengeListState(challengeListDto.getChallengeListState())
                     .build();
             challengeListRepository.save(editedChallengeList);
         } else{

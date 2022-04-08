@@ -14,15 +14,9 @@ public class ChallengeListDto {
 
     private Long id;
     private Long challengeId;
-    private String challengeTitle;
-    private LocalDate startDay;
-    private LocalDate endDay;
-    private int weekCount;
-    private int period;
-    private int totalCount;
-    private int count;
-    private int doing;
-    private int state;
-    private int result;
+    private String userName;
+    private String userPhone;
+    private String userEmail;
+    private int challengeListCount;
+    private int challengeListState;
 }
-
