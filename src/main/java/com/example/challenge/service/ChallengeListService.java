@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChallengeListService {
-
     ChallengeList addChallengeList(ChallengeListDto challengeListDto);
     void editChallengeList(Long id, ChallengeListDto challengeListDto);
     List<ChallengeList> getAllChallengeList();

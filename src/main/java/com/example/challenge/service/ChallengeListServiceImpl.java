@@ -20,7 +20,6 @@ import java.util.Optional;
 public class ChallengeListServiceImpl implements ChallengeListService {
 
     private final ChallengeListRepository challengeListRepository;
-    private final ChallengeService challengeService;
 
     @Transactional
     @Override
@@ -28,8 +27,6 @@ public class ChallengeListServiceImpl implements ChallengeListService {
         log.info("add challenge");
         return challengeListRepository.save(ChallengeList.builder()
                 .id(null)
-                .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
-//                        .challengeId(challengeListDto.getChallengeId())
                 .userName(challengeListDto.getUserName())
                 .userPhone(challengeListDto.getUserPhone())
                 .userEmail(challengeListDto.getUserEmail())
@@ -46,8 +43,6 @@ public class ChallengeListServiceImpl implements ChallengeListService {
         if(challengeListRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
             ChallengeList editedChallengeList = ChallengeList.builder()
                     .id(challengeListDto.getId())
-                    .challenge(challengeService.getChallengeById(challengeListDto.getChallengeId()).get())
-//                .challengeId(challengeListDto.getChallengeId())
                     .userName(challengeListDto.getUserName())
                     .userPhone(challengeListDto.getUserPhone())
                     .userEmail(challengeListDto.getUserEmail())

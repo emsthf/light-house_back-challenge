@@ -38,7 +38,6 @@ public class ChallengeDto {
         this.challengeCount = challengeCount;
         this.challengeState = challengeState;
 //        this.challengeResult = challengeResult;
-
     }
 
 }
