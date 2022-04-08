@@ -16,20 +16,18 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ChallengeListTest")
 public class ChallengeList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //    private Long challengeId;
     @ManyToOne
-    @JoinColumn(name = "challengeId")
+    @JoinColumn(name = "challenge_id")
     private Challenge challenge;
     private String userName;
     private String userPhone;
     private String userEmail;
-    private int challengeListCount; //
-    private int challengeListState; //
+    private int challengeListCount;
+    private int challengeListState;
 
 }

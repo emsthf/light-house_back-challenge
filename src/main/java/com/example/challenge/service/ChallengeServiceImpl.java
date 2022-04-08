@@ -17,15 +17,18 @@ import java.util.Optional;
 public class ChallengeServiceImpl implements ChallengeService{
 
     private final ChallengeRepository challengeRepository;
-    private ChallengeListService challengeListService;
-
-    //challengeListService랑 연결하면 터짐... 확인해볼것
-    //뭐지?? 왜 final로 challengeListService랑 연결하면 루프가 뜨지???
 
     @Transactional
     @Override
     public void addChallenge(ChallengeDto challengeDto) {
         log.info("add challenge");
+        int totalCount = 0;
+        if(challengeDto.getPeriod() % 7 >= challengeDto.getWeekCount()) {
+            totalCount = (int)Math.floor(challengeDto.getPeriod() / 7) * challengeDto.getWeekCount() + challengeDto.getWeekCount();
+        } else {
+            totalCount = (int)Math.floor(challengeDto.getPeriod() / 7) * challengeDto.getWeekCount();
+        }
+//        log.info("totalCount : {}", totalCount);
         challengeRepository.save(Challenge.builder()
                 .id(null)
                 .challengeTitle(challengeDto.getChallengeTitle())
@@ -34,7 +37,7 @@ public class ChallengeServiceImpl implements ChallengeService{
                 .endDay(challengeDto.getEndDay())
                 .period(challengeDto.getPeriod())
                 .weekCount(challengeDto.getWeekCount())
-                .totalCount(challengeDto.getTotalCount())
+                .totalCount(totalCount)
                 .challengeCount(challengeDto.getChallengeCount())
                 .challengeState(challengeDto.getChallengeState())
 ////                        .result(challengeDto.)
@@ -72,11 +75,6 @@ public class ChallengeServiceImpl implements ChallengeService{
         log.info("get all challenge");
         return challengeRepository.findAll();
     }
-
-//    @Override
-//    public List<ChallengeDto> getAllChallenges() {
-//        return ;
-//    }
 
     @Transactional
     @Override
