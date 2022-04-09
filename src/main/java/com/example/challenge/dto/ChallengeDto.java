@@ -15,6 +15,7 @@ public class ChallengeDto {
     private Long id;
     private String challengeTitle;
     private String challengeDesc; //
+    private String challengeImg;
     private LocalDate startDay;
     private LocalDate endDay;
     private int period; //
@@ -26,10 +27,11 @@ public class ChallengeDto {
 
     @Builder
     public ChallengeDto(Long id,
-                        String challengeTitle, String challengeDesc, LocalDate startDay, LocalDate endDay, int period, int weekCount, int totalCount, int challengeCount, int challengeState) {
+                        String challengeTitle, String challengeDesc, String challengeImg, LocalDate startDay, LocalDate endDay, int period, int weekCount, int totalCount, int challengeCount, int challengeState) {
         this.id = id;
         this.challengeTitle = challengeTitle;
         this.challengeDesc = challengeDesc;
+        this.challengeImg = challengeImg;
         this.startDay = startDay;
         this.endDay = endDay;
         this.period = period;
