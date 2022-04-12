@@ -1,5 +1,6 @@
 package com.example.challenge.model;
 
+import com.example.challenge.challengeImg.ChallengeImg;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +24,10 @@ public class Challenge {
     private Long id;
     @JsonIgnore
     @OneToMany(mappedBy = "challenge")
-    private List<ChallengeList> challengeList = new ArrayList<>();
+    private final List<ChallengeList> challengeList = new ArrayList<>();
     private String challengeTitle;
     private String challengeDesc;
+    private String challengeImg;
     private LocalDate startDay;
     private LocalDate endDay;
     private int period;

@@ -1,6 +1,5 @@
 package com.example.challenge.service;
 
-
 import com.example.challenge.dto.ChallengeDto;
 import com.example.challenge.model.Challenge;
 
@@ -12,7 +11,6 @@ public interface ChallengeService {
     void addChallenge(ChallengeDto challengeDto);
     void editChallenge(Long id, ChallengeDto challengeDto);
     List<Challenge> getAllChallenge();
-    //    List<ChallengeDto> getAllChallenges();
     Optional<Challenge> getChallengeById(Long id);
     void delChallenge(Long id);
 }

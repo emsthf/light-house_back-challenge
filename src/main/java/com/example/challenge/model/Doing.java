@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
 
-@Data
-@Entity
+import javax.persistence.*;
+import java.time.LocalDate;
+
 @Builder
-@AllArgsConstructor
+@Entity
+@Data
 @NoArgsConstructor
-public class ChallengeList {
+@AllArgsConstructor
+public class Doing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class ChallengeList {
     @ManyToOne
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
-    private Long userId;
-    private int challengeListCount;
-    private int challengeListState;
+    private LocalDate checkDate;
+    private int week;
+    private Long postId;
 }

@@ -1,6 +1,5 @@
 package com.example.challenge.service;
 
-
 import com.example.challenge.dto.ChallengeListDto;
 import com.example.challenge.model.Challenge;
 import com.example.challenge.model.ChallengeList;
@@ -27,9 +26,7 @@ public class ChallengeListServiceImpl implements ChallengeListService {
         log.info("add challenge");
         return challengeListRepository.save(ChallengeList.builder()
                 .id(null)
-                .userName(challengeListDto.getUserName())
-                .userPhone(challengeListDto.getUserPhone())
-                .userEmail(challengeListDto.getUserEmail())
+                .userId(challengeListDto.getUserId())
                 .challengeListCount(challengeListDto.getChallengeListCount())
                 .challengeListState(challengeListDto.getChallengeListState())
                 .build());
@@ -43,9 +40,7 @@ public class ChallengeListServiceImpl implements ChallengeListService {
         if(challengeListRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
             ChallengeList editedChallengeList = ChallengeList.builder()
                     .id(challengeListDto.getId())
-                    .userName(challengeListDto.getUserName())
-                    .userPhone(challengeListDto.getUserPhone())
-                    .userEmail(challengeListDto.getUserEmail())
+                    .userId(challengeListDto.getUserId())
                     .challengeListCount(challengeListDto.getChallengeListCount())
                     .challengeListState(challengeListDto.getChallengeListState())
                     .build();
