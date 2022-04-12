@@ -97,12 +97,7 @@ public class ChallengeServiceImpl implements ChallengeService{
         challengeRepository.deleteById(id);
     }
 
-//    @Transactional
-//    @Override
-//    public List<Challenge> get3DoingChallenge(int state) {
-//        log.info("대시보드에 보여줄 최근 진행중인 챌린지 3개");
-//        return challengeRepository.findTop3ByStateOrderByIdDesc(state);
-//    }
+
 
     @Transactional
     @Scheduled(cron = "0 0 0 * * *") // 매일 0시에 실행

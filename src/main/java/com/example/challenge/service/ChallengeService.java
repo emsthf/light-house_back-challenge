@@ -13,5 +13,4 @@ public interface ChallengeService {
     List<Challenge> getAllChallenge();
     Optional<Challenge> getChallengeById(Long id);
     void delChallenge(Long id);
-//    List<Challenge> get3DoingChallenge(int state);
 }
