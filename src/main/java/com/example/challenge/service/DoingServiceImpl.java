@@ -17,7 +17,7 @@ import java.util.Optional;
 public class DoingServiceImpl implements DoingService{
 
     private final DoingRepository doingRepository;
-    private final ChallengeListService challengeListService;
+//    private final ChallengeService challengeService;
 
     @Override
     public Doing addDoing(Doing doing) {
@@ -50,8 +50,8 @@ public class DoingServiceImpl implements DoingService{
     }
 
     @Override
-    public List<Doing> findAllByChallengeListId(Long challengeListId) {
-        return doingRepository.findAllByChallengeListId(challengeListId);
+    public List<Doing> findAllByChallengeId(Long challengeId) {
+        return doingRepository.findAllByChallengeId(challengeId);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DoingServiceImpl implements DoingService{
     }
 
     @Override
-    public Doing findByChallengeListIdAndCheckDate(Long challengeListId, LocalDate localDate) {
-        return doingRepository.findByChallengeListIdAndCheckDate(challengeListId, localDate);
+    public Doing findByChallengeIdAndCheckDate(Long challengeId, LocalDate localDate) {
+        return doingRepository.findByChallengeIdAndCheckDate(challengeId, localDate);
     }
 }

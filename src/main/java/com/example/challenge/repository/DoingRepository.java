@@ -1,5 +1,6 @@
 package com.example.challenge.repository;
 
+
 import com.example.challenge.model.Doing;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 
 public interface DoingRepository extends JpaRepository<Doing, Long> {
-    List<Doing> findAllByChallengeListId(Long challengeListId);
+    List<Doing> findAllByChallengeId(Long challengeId);
     List<Doing> findAllByWeek(int week);
-    Doing findByChallengeListIdAndCheckDate(Long challengeId, LocalDate localDate);
+    Doing findByChallengeIdAndCheckDate(Long challengeId, LocalDate localDate);
 }

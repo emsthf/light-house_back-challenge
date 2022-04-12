@@ -12,7 +12,7 @@ public interface DoingService {
     List<Doing> getAllDoing();
     Optional<Doing> getDoingById(Long id);
     void delDoing(Long id);
-    List<Doing> findAllByChallengeListId(Long challengeList);
+    List<Doing> findAllByChallengeId(Long challenge);
     List<Doing> findAllByWeek(int week);
-    Doing findByChallengeListIdAndCheckDate(Long challengeListId, LocalDate localDate);
+    Doing findByChallengeIdAndCheckDate(Long challengeId, LocalDate localDate);
 }

@@ -19,13 +19,9 @@ public class Doing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "challenge_list_id")
-    private ChallengeList challengeList;
+    @JoinColumn(name = "challenge_id")
+    private Challenge challenge;
     private LocalDate checkDate;
     private int week;
-    private String postTitle;
-    private String postContent;
-    private String postImg;
-
-
+    private Long postId;
 }
