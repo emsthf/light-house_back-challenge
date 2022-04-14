@@ -30,6 +30,6 @@ public class ChallengeController {
     @GetMapping("/challenge/{id}")
     public Optional<Challenge> getChallengeById(@PathVariable Long id) {return challengeService.getChallengeById(id);}
 
-    @DeleteMapping("/challenge/{id}")
-    public void del(@PathVariable("id")Long id){challengeService.delChallenge(id);}
+//    @DeleteMapping("/challenge/{id}")
+//    public void del(@PathVariable("id")Long id){challengeService.delChallenge(id);}
 }
