@@ -1,5 +1,7 @@
 package com.example.challenge.service;
 
+
+
 import com.example.challenge.model.Doing;
 
 import java.time.LocalDate;
@@ -12,7 +14,7 @@ public interface DoingService {
     List<Doing> getAllDoing();
     Optional<Doing> getDoingById(Long id);
     void delDoing(Long id);
-    List<Doing> findAllByChallengeId(Long challenge);
-    List<Doing> findAllByWeek(int week);
-    Doing findByChallengeIdAndCheckDate(Long challengeId, LocalDate localDate);
+    List<Doing> findAllByUserChallengeId(Long userChallengeId);
+    List<Doing> findByAllByWeek(int week);
+    Doing findByChallengeIdAndCheckDate(Long userChallengeId, LocalDate localDate);
 }

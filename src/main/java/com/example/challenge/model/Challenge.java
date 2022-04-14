@@ -1,6 +1,5 @@
 package com.example.challenge.model;
 
-import com.example.challenge.challengeImg.ChallengeImg;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,7 @@ public class Challenge {
     private Long id;
     @JsonIgnore
     @OneToMany(mappedBy = "challenge")
-    private final List<ChallengeList> challengeList = new ArrayList<>();
+    private final List<UserChallenge> userChallenge = new ArrayList<>();
     private String challengeTitle;
     private String challengeDesc;
     private String challengeImg;

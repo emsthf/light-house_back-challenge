@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChallengeList {
+public class UserChallenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,6 @@ public class ChallengeList {
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
     private Long userId;
-    private int challengeListCount;
-    private int challengeListState;
+    private int userChallengeCount;
+    private int userChallengeState;
 }

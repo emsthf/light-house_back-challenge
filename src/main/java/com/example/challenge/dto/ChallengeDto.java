@@ -1,7 +1,6 @@
 package com.example.challenge.dto;
 
 
-import com.example.challenge.model.ChallengeList;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
