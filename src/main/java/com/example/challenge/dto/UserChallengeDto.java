@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ChallengeListDto {
+public class UserChallengeDto {
 
     private Long id;
     private Long challengeId;
     private Long userId;
-    private int challengeListCount;
-    private int challengeListState;
+    private Long postId;
+    private int userChallengeCount;
+    private int userChallengeState;
+    private int userChallengeTotalCount;
+
 }

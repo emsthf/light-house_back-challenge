@@ -17,7 +17,6 @@ import java.util.Optional;
 public class DoingServiceImpl implements DoingService{
 
     private final DoingRepository doingRepository;
-//    private final ChallengeService challengeService;
 
     @Override
     public Doing addDoing(Doing doing) {
@@ -50,17 +49,17 @@ public class DoingServiceImpl implements DoingService{
     }
 
     @Override
-    public List<Doing> findAllByChallengeId(Long challengeId) {
-        return doingRepository.findAllByChallengeId(challengeId);
+    public List<Doing> findAllByUserChallengeId(Long userChallengeId) {
+        return doingRepository.findAllByUserChallengeId(userChallengeId);
     }
 
     @Override
-    public List<Doing> findAllByWeek(int week) {
+    public List<Doing> findByAllByWeek(int week) {
         return doingRepository.findAllByWeek(week);
     }
 
     @Override
-    public Doing findByChallengeIdAndCheckDate(Long challengeId, LocalDate localDate) {
-        return doingRepository.findByChallengeIdAndCheckDate(challengeId, localDate);
+    public Doing findByChallengeIdAndCheckDate(Long userChallengeId, LocalDate localDate) {
+        return doingRepository.findByUserChallengeIdAndCheckDate(userChallengeId, localDate);
     }
 }

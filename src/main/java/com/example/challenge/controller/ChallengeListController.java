@@ -1,9 +1,9 @@
 package com.example.challenge.controller;
 
-import com.example.challenge.dto.ChallengeListDto;
-import com.example.challenge.model.ChallengeList;
+import com.example.challenge.dto.UserChallengeDto;
+import com.example.challenge.model.UserChallenge;
 import com.example.challenge.service.BadgeClient;
-import com.example.challenge.service.ChallengeListService;
+import com.example.challenge.service.UserChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,24 +16,24 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ChallengeListController {
 
-    private final ChallengeListService challengeListService;
+    private final UserChallengeService userChallengeService;
     private final BadgeClient badgeClient;
 
     @PostMapping("/challengeList")
-    public void add(@RequestBody ChallengeListDto challengeListDto){challengeListService.addChallengeList(challengeListDto);}
+    public void add(@RequestBody UserChallengeDto userChallengeDto){userChallengeService.addChallengeList(userChallengeDto);}
 
     @PutMapping("/challengeList")
-    public void edit(@PathVariable Long id, @RequestBody ChallengeListDto challengeListDto){challengeListService.editChallengeList(id, challengeListDto);}
+    public void edit(@PathVariable Long id, @RequestBody UserChallengeDto userChallengeDto){userChallengeService.editChallengeList(id, userChallengeDto);}
 
     @GetMapping("/challengeList")
-    public List<ChallengeList> getAll(){return challengeListService.getAllChallengeList();}
+    public List<UserChallenge> getAll(){return userChallengeService.getAllChallengeList();}
 
     @GetMapping("/challengeList/{id}")
-    public Optional<ChallengeList> getChallengeById(@PathVariable Long id){return challengeListService.getChallengeListById(id);}
+    public Optional<UserChallenge> getChallengeById(@PathVariable Long id){return userChallengeService.getChallengeListById(id);}
 
     @DeleteMapping("/challengList/{id}")
     public void del(@PathVariable("id")Long id) {
-        challengeListService.delChallengeList(id);
+        userChallengeService.delChallengeList(id);
     }
 
     @GetMapping("/challenge/badge/{id}")
