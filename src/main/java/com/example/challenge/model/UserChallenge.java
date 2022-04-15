@@ -22,4 +22,5 @@ public class UserChallenge {
     private Long userId;
     private int userChallengeCount;
     private int userChallengeState;
+    private boolean userChallengeResult;
 }

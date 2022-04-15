@@ -73,9 +73,9 @@ public class UserChallengeServiceImpl implements UserChallengeService {
                 //하루에 한번만 목표 실천 인증
                 if (doingService.findByChallengeIdAndCheckDate(userChallenge.getId(), LocalDate.now()) == null){
                     log.info("checkDoing");
-                    userChallenge.setUserChallengeCount(userChallengeDto.getUserChallengeCount());
+                    userChallenge.setUserChallengeCount(userChallenge.getUserChallengeCount() + 1);
                     // 포스트맨 테스트 용으로 사용
-//                    challenge.setChallengeCount(challenge.getChallengeCount() + challengeCheckDoingDto.getChallengeCount());
+//                    userChallenge.setUserChallengeCount(userChallenge.getUserChallengeCount() + userChallengeDto.getUserChallengeCount());
                     doingService.addDoing(
                             new Doing(userChallenge, LocalDate.now(), thisWeek,userChallengeDto.getPostId())
                     );

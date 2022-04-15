@@ -21,7 +21,7 @@ public class DoingController {
         doingService.addDoing(doing);
     }
 
-    @PutMapping("/doing")
+    @PutMapping("/doing/{id}")
     public void edit(@RequestBody Doing doing) {doingService.editDoing(doing);}
 
     @GetMapping("/doing")

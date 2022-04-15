@@ -2,6 +2,7 @@ package com.example.challenge.service;
 
 import com.example.challenge.dto.ChallengeDto;
 import com.example.challenge.model.Challenge;
+import com.example.challenge.model.UserChallenge;
 import com.example.challenge.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +61,7 @@ public class ChallengeServiceImpl implements ChallengeService{
         if (challengeRepository.findById(id).isPresent()) {
             Challenge editedChallenge = Challenge
                     .builder()
-                    .id(challengeDto.getId())
+                    .id(id)
                     .challengeTitle(challengeDto.getChallengeTitle())
                     .challengeDesc(challengeDto.getChallengeDesc())
                     .challengeImg(challengeDto.getChallengeImg())

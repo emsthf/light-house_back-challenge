@@ -17,10 +17,12 @@ public class ChallengeImg {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String url;
+    private Long challengeId;
 
     @Builder
-    public ChallengeImg(Long id, String url){
+    public ChallengeImg(Long id, String url, Long challengeId){
         this.id = id;
         this.url = url;
+        this.challengeId = challengeId;
     }
 }

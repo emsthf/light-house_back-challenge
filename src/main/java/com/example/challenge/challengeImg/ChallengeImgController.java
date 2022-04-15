@@ -24,7 +24,7 @@ public class ChallengeImgController {
 
         model.addAttribute("challengeImgList", challengeImgDtoList);
 
-        return "/challengeImg";
+        return challengeImgDtoList.get(challengeImgDtoList.size() -1).getImgFullPath();
     }
 
     @PostMapping("/challengeImg")
@@ -34,7 +34,7 @@ public class ChallengeImgController {
 
         challengeImgService.saveChallengeImg(challengeImgDto);
 
-        return "redirect:/challengeImg";
+        return "https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + challengeImgDto.getUrl();
     }
 }
 

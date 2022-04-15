@@ -33,4 +33,5 @@ public class Challenge {
     private int weekCount;
     private int totalCount;
     private int challengeState;
+
 }

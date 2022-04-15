@@ -16,5 +16,6 @@ public class UserChallengeDto {
     private int userChallengeCount;
     private int userChallengeState;
     private int userChallengeTotalCount;
+    private int weekCount;
 
 }

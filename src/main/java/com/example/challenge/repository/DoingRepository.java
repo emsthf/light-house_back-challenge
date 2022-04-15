@@ -13,4 +13,5 @@ public interface DoingRepository extends JpaRepository<Doing, Long> {
     List<Doing> findAllByUserChallengeId(Long userChallengeId);
     List<Doing> findAllByWeekAndUserChallengeId(int week, Long userChallengeId);
     Doing findByUserChallengeIdAndCheckDate(Long userChallengeId, LocalDate localDate);
+
 }
