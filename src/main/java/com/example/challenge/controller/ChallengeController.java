@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class ChallengeController {
 
     private final ChallengeService challengeService;
-    //
+
     @PostMapping("/challenge")
     public void add(@RequestBody ChallengeDto challengeDto){challengeService.addChallenge(challengeDto);}
 

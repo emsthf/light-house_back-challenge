@@ -10,30 +10,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class UserChallengeController {
 
-    private final UserChallengeService challengeListService;
+    private final UserChallengeService userChallengeService;
     private final BadgeClient badgeClient;
 
-    @PostMapping("/userChallenge")
-    public void add(@RequestBody UserChallengeDto challengeListDto){challengeListService.addChallengeList(challengeListDto);}
+    @PostMapping("/mychallenge")
+    public void add(@RequestBody UserChallengeDto challengeListDto){userChallengeService.addChallengeList(challengeListDto);}
 
-    @PutMapping("/userChallenge")
-    public void edit(@PathVariable Long id, @RequestBody UserChallengeDto challengeListDto){challengeListService.editChallengeList(id, challengeListDto);}
+    @PutMapping("/mychallenge/{id}")
+    public void edit(@PathVariable Long id, @RequestBody UserChallengeDto challengeListDto){
+        userChallengeService.editChallengeList(id, challengeListDto);
+    }
 
-    @GetMapping("/userChallenge")
-    public List<UserChallenge> getAll(){return challengeListService.getAllChallengeList();}
+    @GetMapping("/mychallenge")
+    public List<UserChallenge> getAll(){return userChallengeService.getAllChallengeList();}
 
-    @GetMapping("/userChallenge/{id}")
-    public Optional<UserChallenge> getChallengeById(@PathVariable Long id){return challengeListService.getChallengeListById(id);}
+    @GetMapping("/mychallenge/{id}")
+    public Optional<UserChallenge> getChallengeById(@PathVariable Long id){return userChallengeService.getChallengeListById(id);}
 
-    @DeleteMapping("/userChallenge/{id}")
+    @DeleteMapping("/mychallenge/{id}")
     public void del(@PathVariable("id")Long id) {
-        challengeListService.delChallengeList(id);
+        userChallengeService.delChallengeList(id);
     }
 
     @GetMapping("/mychallenge/badge/{id}")
@@ -46,9 +48,9 @@ public class UserChallengeController {
         return badgeClient.findByBadgeName(badgeName);
     }
 
-    @GetMapping("/userchallenge/all/{challengeId}")
+    @GetMapping("/mychallenge/all/{challengeId}")
     public Long countByChallengeId(@PathVariable Long challengeId) {
-        return challengeListService.countByChallengeId(challengeId);
+        return userChallengeService.countByChallengeId(challengeId);
     }
 }
 

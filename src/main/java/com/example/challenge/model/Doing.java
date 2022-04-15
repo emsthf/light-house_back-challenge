@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Builder
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,4 +24,11 @@ public class Doing {
     private LocalDate checkDate;
     private int week;
     private Long postId;
+
+    public Doing(UserChallenge userChallenge, LocalDate checkDate, int week, Long postId) {
+        this.userChallenge = userChallenge;
+        this.checkDate = checkDate;
+        this.week = week;
+        this.postId = postId;
+    }
 }

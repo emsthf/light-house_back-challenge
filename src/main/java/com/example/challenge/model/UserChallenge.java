@@ -16,7 +16,7 @@ public class UserChallenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
     private Long userId;

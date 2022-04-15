@@ -22,7 +22,7 @@ public class Challenge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonIgnore
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.REMOVE)
     private final List<UserChallenge> userChallenge = new ArrayList<>();
     private String challengeTitle;
     private String challengeDesc;
