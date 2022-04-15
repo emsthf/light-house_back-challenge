@@ -21,7 +21,7 @@ public class ChallengeController {
     @PostMapping("/challenge")
     public void add(@RequestBody ChallengeDto challengeDto){challengeService.addChallenge(challengeDto);}
 
-    @PutMapping("/challenge")
+    @PutMapping("/challenge/{id}")
     public void edit(@PathVariable Long id, @RequestBody ChallengeDto challengeDto){challengeService.editChallenge(id, challengeDto);}
 
     @GetMapping("/challenge")
@@ -30,6 +30,6 @@ public class ChallengeController {
     @GetMapping("/challenge/{id}")
     public Optional<Challenge> getChallengeById(@PathVariable Long id) {return challengeService.getChallengeById(id);}
 
-//    @DeleteMapping("/challenge/{id}")
-//    public void del(@PathVariable("id")Long id){challengeService.delChallenge(id);}
+    @DeleteMapping("/challenge/{id}")
+    public void del(@PathVariable("id")Long id){challengeService.delChallenge(id);}
 }

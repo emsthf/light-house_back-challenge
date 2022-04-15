@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface DoingRepository extends JpaRepository<Doing, Long> {
     List<Doing> findAllByUserChallengeId(Long userChallengeId);
-    List<Doing> findAllByWeek(int week);
+    List<Doing> findAllByWeekAndUserChallengeId(int week, Long userChallengeId);
     Doing findByUserChallengeIdAndCheckDate(Long userChallengeId, LocalDate localDate);
+
 }

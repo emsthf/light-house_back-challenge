@@ -20,7 +20,7 @@ public class UserChallengeController {
     @PostMapping("/userChallenge")
     public void add(@RequestBody UserChallengeDto challengeListDto){challengeListService.addChallengeList(challengeListDto);}
 
-    @PutMapping("/userChallenge")
+    @PutMapping("/userChallenge/{id}")
     public void edit(@PathVariable Long id, @RequestBody UserChallengeDto challengeListDto){challengeListService.editChallengeList(id, challengeListDto);}
 
     @GetMapping("/userChallenge")

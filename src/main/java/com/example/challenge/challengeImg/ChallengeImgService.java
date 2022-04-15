@@ -34,6 +34,7 @@ public class ChallengeImgService {
                 .id(challengeImg.getId())
                 .url(challengeImg.getUrl())
                 .imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + challengeImg.getUrl())
+                .challengeId(challengeImg.getChallengeId())
                 .build();
     }
 

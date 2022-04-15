@@ -54,8 +54,8 @@ public class DoingServiceImpl implements DoingService{
     }
 
     @Override
-    public List<Doing> findByAllByWeek(int week) {
-        return doingRepository.findAllByWeek(week);
+    public List<Doing> findByAllByWeekAndChallengeId(int week, Long userChallengeId) {
+        return doingRepository.findAllByWeekAndUserChallengeId(week, userChallengeId);
     }
 
     @Override
