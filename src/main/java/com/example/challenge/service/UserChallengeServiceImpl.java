@@ -39,7 +39,6 @@ public class UserChallengeServiceImpl implements UserChallengeService {
     @Transactional
     @Override
     public void editChallengeList(Long id, UserChallengeDto userChallengeDto) {
-
         log.info("edit challengeList. {}", userChallengeRepository.findById(userChallengeDto.getId()));
         if(userChallengeRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
             UserChallenge editedChallengeList = UserChallenge.builder()
@@ -80,6 +79,11 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         }
     }
 
+    @Override
+    public Long countByChallengeId(Long challengeId) { // 챌린지를 신청한 총 인원 수
+        return userChallengeRepository.countByChallengeId(challengeId);
+    }
+
     //총 실행 기간 중 현재 몇 주차인지 확인
     @Transactional
     public int checkWeek(UserChallenge userChallenge){
@@ -108,14 +112,14 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         if (userChallenge.getUserChallengeState() == 0 && userChallenge.getUserChallengeCount() < userChallengeDto.getUserChallengeTotalCount()){
 
             //일주일동안 실천하기로 한 횟수만큼 카운트!
-            if (doingService.findByAllByWeek(thisWeek).size() < userChallengeDto.getUserChallengeTotalCount()) {
+            if (doingService.findAllByWeekAndUserChallengeId(thisWeek, userChallengeDto.getChallengeId()).size() < userChallengeDto.getUserChallengeTotalCount()) {
 
                 //하루에 한번만 목표 실천 인증
                 if (doingService.findByChallengeIdAndCheckDate(userChallenge.getId(), LocalDate.now()) == null){
                     log.info("checkDoing");
                     userChallenge.setUserChallengeCount(userChallengeDto.getUserChallengeCount()); //front에서 count +1 put
                     ////포스트맨 테스트 용으로 사용
-//                    challenge.setChallengeCount(challenge.getChallengeCount() + challengeCheckDoingDto.getChallengeCount()); //포스트맨 테스트 용으로 사용
+//                    challenge.setChallengeCount(challenge.getChallengeCount() + challengeCheckDoingDto.getChallengeCount());
                     doingService.addDoing(Doing.builder()
                             .userChallenge(userChallenge)
                             .checkDate(LocalDate.now())

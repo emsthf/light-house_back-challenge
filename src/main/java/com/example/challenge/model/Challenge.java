@@ -32,8 +32,5 @@ public class Challenge {
     private int period;
     private int weekCount;
     private int totalCount;
-    private int challengeCount;
     private int challengeState;
-    private boolean challengeResult;
-
 }

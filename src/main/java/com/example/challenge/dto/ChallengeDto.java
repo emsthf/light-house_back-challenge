@@ -13,16 +13,15 @@ public class ChallengeDto {
 
     private Long id;
     private String challengeTitle;
-    private String challengeDesc; //
+    private String challengeDesc;
     private String challengeImg;
     private LocalDate startDay;
     private LocalDate endDay;
-    private int period; //
+    private int period;
     private int weekCount;
     private int totalCount;
-    private int challengeCount; //
-    private int challengeState; //
-//    private boolean challengeResult;
+    private int challengeCount;
+    private int challengeState;
 
     @Builder
     public ChallengeDto(Long id,
@@ -38,7 +37,6 @@ public class ChallengeDto {
         this.totalCount = totalCount;
         this.challengeCount = challengeCount;
         this.challengeState = challengeState;
-//        this.challengeResult = challengeResult;
     }
 
 }

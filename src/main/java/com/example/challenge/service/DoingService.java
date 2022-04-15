@@ -15,6 +15,6 @@ public interface DoingService {
     Optional<Doing> getDoingById(Long id);
     void delDoing(Long id);
     List<Doing> findAllByUserChallengeId(Long userChallengeId);
-    List<Doing> findByAllByWeek(int week);
+    List<Doing> findAllByWeekAndUserChallengeId(int week, Long userChallengeId);
     Doing findByChallengeIdAndCheckDate(Long userChallengeId, LocalDate localDate);
 }

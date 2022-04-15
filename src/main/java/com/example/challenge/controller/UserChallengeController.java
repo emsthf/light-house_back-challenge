@@ -2,6 +2,7 @@ package com.example.challenge.controller;
 
 import com.example.challenge.dto.UserChallengeDto;
 import com.example.challenge.model.UserChallenge;
+import com.example.challenge.service.BadgeClient;
 import com.example.challenge.service.UserChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class UserChallengeController {
 
     private final UserChallengeService challengeListService;
+    private final BadgeClient badgeClient;
 
     @PostMapping("/userChallenge")
     public void add(@RequestBody UserChallengeDto challengeListDto){challengeListService.addChallengeList(challengeListDto);}
@@ -32,6 +34,21 @@ public class UserChallengeController {
     @DeleteMapping("/userChallenge/{id}")
     public void del(@PathVariable("id")Long id) {
         challengeListService.delChallengeList(id);
+    }
+
+    @GetMapping("/mychallenge/badge/{id}")
+    public Badge findBadgeById(@PathVariable Long id) {
+        return badgeClient.getBadgeById(id);
+    }
+
+    @GetMapping("/mychallenge/badge/find")
+    public Badge findByBadgeName(@RequestParam(name = "badgeName", required = false) String badgeName) {
+        return badgeClient.findByBadgeName(badgeName);
+    }
+
+    @GetMapping("/userchallenge/all/{challengeId}")
+    public Long countByChallengeId(@PathVariable Long challengeId) {
+        return challengeListService.countByChallengeId(challengeId);
     }
 }
 
