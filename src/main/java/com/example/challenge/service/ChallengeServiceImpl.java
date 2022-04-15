@@ -26,11 +26,18 @@ public class ChallengeServiceImpl implements ChallengeService{
     @Override //챌린지 추가(관리자)
     public void addChallenge(ChallengeDto challengeDto) {
         log.info("add challenge");
+        // 전체 기간의 주차별로 실행해야 할 count 수
+        int totalWeekCount = (int)Math.floor(challengeDto.getPeriod() / 7) * challengeDto.getWeekCount();
+        // 전체 기간에서 일주일 단위로 나누어 떨어지지 않는 나머지 일수
+        int remainderDay = challengeDto.getPeriod() - (int)Math.floor(challengeDto.getPeriod() / 7) * 7;
         int totalCount = 0;
-        if(challengeDto.getPeriod() % 7 >= challengeDto.getWeekCount()) {
-            totalCount = (int)Math.floor(challengeDto.getPeriod() / 7) * challengeDto.getWeekCount() + challengeDto.getWeekCount();
+
+        if(challengeDto.getPeriod() % 7 > challengeDto.getWeekCount()) {
+            totalCount = totalWeekCount + challengeDto.getWeekCount();
+        } else if(challengeDto.getPeriod() % 7 == 0) {
+            totalCount = totalWeekCount;
         } else {
-            totalCount = (int)Math.floor(challengeDto.getPeriod() / 7) * challengeDto.getWeekCount();
+            totalCount = totalWeekCount + remainderDay;
         }
 //        log.info("totalCount : {}", totalCount);
         challengeRepository.save(Challenge.builder()
@@ -93,7 +100,6 @@ public class ChallengeServiceImpl implements ChallengeService{
     }
 
 
-
     @Transactional
     @Scheduled(cron = "0 0 0 * * *") // 매일 0시에 실행
     public void scheduler(){
@@ -106,4 +112,5 @@ public class ChallengeServiceImpl implements ChallengeService{
             }
         });
     }
+
 }

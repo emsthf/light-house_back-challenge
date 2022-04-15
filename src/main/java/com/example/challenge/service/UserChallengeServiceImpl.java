@@ -1,6 +1,7 @@
 package com.example.challenge.service;
 
 import com.example.challenge.dto.UserChallengeDto;
+import com.example.challenge.model.Challenge;
 import com.example.challenge.model.Doing;
 import com.example.challenge.model.UserChallenge;
 import com.example.challenge.repository.UserChalllengeRepository;
@@ -27,32 +28,71 @@ public class UserChallengeServiceImpl implements UserChallengeService {
     @Override
     public UserChallenge addChallengeList(UserChallengeDto userChallengeDto) {
         log.info("add challenge");
-        return userChallengeRepository.save(UserChallenge.builder()
-                .id(null)
-                .userId(userChallengeDto.getUserId())
-                .challenge(challengeService.getChallengeById(userChallengeDto.getChallengeId()).get())
-                .userChallengeCount(userChallengeDto.getUserChallengeCount())
-                .userChallengeState(userChallengeDto.getUserChallengeState())
-                .build());
+        if(userChallengeRepository.findByChallengeIdAndUserId(
+                userChallengeDto.getChallengeId(),
+                userChallengeDto.getUserId()).isEmpty()) {
+            return userChallengeRepository.save(UserChallenge.builder()
+                    .userId(userChallengeDto.getUserId())
+                    .challenge(challengeService.getChallengeById(userChallengeDto.getChallengeId()).get())
+//                    .userChallengeCount(userChallengeDto.getUserChallengeCount())
+//                    .userChallengeState(userChallengeDto.getUserChallengeState())
+                    .build());
+        } else {
+            log.error("already exists.");
+            return null;
+        }
+    }
+
+    //총 실행 기간 중 현재 몇 주차인지 확인
+    int checkWeek(Challenge challenge){
+        int now = LocalDate.now().getDayOfYear();
+        int start = challenge.getStartDay().getDayOfYear();
+        int week = 1;
+
+        for(int i = 1; i <= now - start; i++) {
+            if(i % 7 == 0) {
+                week++;
+            }
+        }
+        log.info("week : {}", week);
+        return week;
+    }
+
+    //챌린지에서 카운트하고 doing에 추가
+    UserChallenge checkDoing(UserChallengeDto userChallengeDto) {
+        log.info("checkDoing by userChallengeId : {}", userChallengeDto.getId());
+        UserChallenge userChallenge = userChallengeRepository.findById(userChallengeDto.getId()).get();
+        Challenge challenge = challengeService.getChallengeById(userChallengeDto.getChallengeId()).get();
+
+        int thisWeek = checkWeek(challenge);
+
+        if (userChallenge.getUserChallengeState() == 0 && userChallenge.getUserChallengeCount() < challenge.getTotalCount()){
+            //일주일동안 실천하기로 한 횟수만큼만 카운트
+            if (doingService.findAllByWeekAndUserChallengeId(
+                    thisWeek, userChallengeDto.getChallengeId()).size() < challenge.getWeekCount()) {
+                //하루에 한번만 목표 실천 인증
+                if (doingService.findByChallengeIdAndCheckDate(userChallenge.getId(), LocalDate.now()) == null){
+                    log.info("checkDoing");
+                    userChallenge.setUserChallengeCount(userChallenge.getUserChallengeCount() + 1);
+                    // 포스트맨 테스트 용으로 사용
+//                    userChallenge.setUserChallengeCount(userChallenge.getUserChallengeCount() + userChallengeDto.getUserChallengeCount());
+                    doingService.addDoing(
+                            new Doing(userChallenge, LocalDate.now(), thisWeek,userChallengeDto.getPostId())
+                    );
+                }
+            }
+        }else {
+            log.info("check doing error");
+        }
+        return userChallengeRepository.save(userChallenge);
     }
 
     @Transactional
     @Override
     public void editChallengeList(Long id, UserChallengeDto userChallengeDto) {
-
-        log.info("edit challengeList. {}", userChallengeRepository.findById(userChallengeDto.getId()));
-        if(userChallengeRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
-            UserChallenge editedChallengeList = UserChallenge.builder()
-                    .id(id)
-                    .userId(userChallengeDto.getUserId())
-                    .challenge(challengeService.getChallengeById(userChallengeDto.getChallengeId()).get())
-                    .userChallengeCount(userChallengeDto.getUserChallengeCount())
-                    .userChallengeState(userChallengeDto.getUserChallengeState())
-                    .build();
-            userChallengeRepository.save(editedChallengeList);
-        } else{
-            log.error("edit challengeList error.");
-        }
+        log.info("edit user challenge count. user challenge id = {}", userChallengeRepository.findById(userChallengeDto.getId()));
+        UserChallenge userChallenge = checkDoing(userChallengeDto);
+        userChallengeRepository.save(userChallenge);
     }
 
     @Transactional
@@ -80,51 +120,9 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         }
     }
 
-    //총 실행 기간 중 현재 몇 주차인지 확인
-    @Transactional
-    public int checkWeek(UserChallenge userChallenge){
-        int now = LocalDate.now().getDayOfYear();
-        int start = userChallenge.getChallenge().getStartDay().getDayOfYear();
-        int week = 1;
-
-        for(int i = 1; i <= now - start; i++) {
-            if(i % 7 == 0) {
-                week++;
-            }
-        }
-        log.info("week : {}", week);
-        return week;
+    @Override
+    public Long countByChallengeId(Long challengeId) { // 챌린지를 신청한 총 인원 수
+        return userChallengeRepository.countByChallengeId(challengeId);
     }
 
-    //UserChallenge count and add doing
-    //챌린지에서 카운트하고 doing에 추가
-    @Transactional
-    public UserChallenge checkDoing(UserChallengeDto userChallengeDto) {
-        log.info("checkDoing by userChallengeId : {}", userChallengeDto.getId());
-        UserChallenge userChallenge = userChallengeRepository.findById(userChallengeDto.getId()).get();
-
-        int thisWeek = checkWeek(userChallenge);
-
-        if (userChallenge.getUserChallengeState() == 0 && userChallenge.getUserChallengeCount() < userChallengeDto.getUserChallengeTotalCount()){
-
-            //일주일동안 실천하기로 한 횟수만큼 카운트!
-            if (doingService.findByAllByWeekAndChallengeId(thisWeek, userChallenge.getId()).size() < userChallengeDto.getWeekCount()) {
-
-                //하루에 한번만 목표 실천 인증
-                if (doingService.findByChallengeIdAndCheckDate(userChallenge.getId(), LocalDate.now()) == null){
-                    log.info("checkDoing");
-                    userChallenge.setUserChallengeCount(userChallengeDto.getUserChallengeCount()); //front에서 count +1 put
-                    ////포스트맨 테스트 용으로 사용
-//                    challenge.setChallengeCount(challenge.getChallengeCount() + challengeCheckDoingDto.getChallengeCount()); //포스트맨 테스트 용으로 사용
-                    doingService.addDoing(Doing.builder()
-                            .userChallenge(userChallenge)
-                            .checkDate(LocalDate.now())
-                            .week(thisWeek)
-                            .postId(userChallengeDto.getPostId())
-                            .build());}}
-        }else {
-            log.info("check doing error");
-        }
-        return userChallengeRepository.save(userChallenge);
-    }
 }
