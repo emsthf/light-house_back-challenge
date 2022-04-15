@@ -43,7 +43,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         log.info("edit challengeList. {}", userChallengeRepository.findById(userChallengeDto.getId()));
         if(userChallengeRepository.findById(id).isPresent()){ //id 값이 있는지 먼저 확인하기
             UserChallenge editedChallengeList = UserChallenge.builder()
-                    .id(userChallengeDto.getId())
+                    .id(id)
                     .userId(userChallengeDto.getUserId())
                     .challenge(challengeService.getChallengeById(userChallengeDto.getChallengeId()).get())
                     .userChallengeCount(userChallengeDto.getUserChallengeCount())
@@ -108,7 +108,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         if (userChallenge.getUserChallengeState() == 0 && userChallenge.getUserChallengeCount() < userChallengeDto.getUserChallengeTotalCount()){
 
             //일주일동안 실천하기로 한 횟수만큼 카운트!
-            if (doingService.findByAllByWeek(thisWeek).size() < userChallengeDto.getUserChallengeTotalCount()) {
+            if (doingService.findByAllByWeekAndChallengeId(thisWeek, userChallenge.getId()).size() < userChallengeDto.getWeekCount()) {
 
                 //하루에 한번만 목표 실천 인증
                 if (doingService.findByChallengeIdAndCheckDate(userChallenge.getId(), LocalDate.now()) == null){
