@@ -4,7 +4,7 @@ import com.example.challenge.dto.UserChallengeDto;
 import com.example.challenge.model.Challenge;
 import com.example.challenge.model.Doing;
 import com.example.challenge.model.UserChallenge;
-import com.example.challenge.repository.UserChalllengeRepository;
+import com.example.challenge.repository.UserChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,26 +20,38 @@ import java.util.Optional;
 @Service
 public class UserChallengeServiceImpl implements UserChallengeService {
 
-    private final UserChalllengeRepository userChallengeRepository;
+    private final UserChallengeRepository userChallengeRepository;
     private final ChallengeService challengeService;
     private final DoingService doingService;
 
     @Transactional
     @Override
-    public UserChallenge addChallengeList(UserChallengeDto userChallengeDto) {
-        log.info("add challenge");
-        if(userChallengeRepository.findByChallengeIdAndUserId(
-                userChallengeDto.getChallengeId(),
-                userChallengeDto.getUserId()).isEmpty()) {
-            return userChallengeRepository.save(UserChallenge.builder()
+    public boolean addChallengeList(UserChallengeDto userChallengeDto) {
+        Challenge challenge = challengeService.getChallengeById(userChallengeDto.getChallengeId()).get();
+        
+        if(LocalDate.now().isBefore(challenge.getStartDay())) { // 챌린지 시작일 이전일까지만 신청
+            if(userChallengeRepository.findByChallengeIdAndUserId(
+                    userChallengeDto.getChallengeId(),
+                    userChallengeDto.getUserId()).isEmpty()
+            ) { // 동일한 유저의 신청 정보가 없으면 신청 가능
+                userChallengeRepository.save(UserChallenge.builder()
                     .userId(userChallengeDto.getUserId())
                     .challenge(challengeService.getChallengeById(userChallengeDto.getChallengeId()).get())
-//                    .userChallengeCount(userChallengeDto.getUserChallengeCount())
-//                    .userChallengeState(userChallengeDto.getUserChallengeState())
+    //                    .userChallengeCount(userChallengeDto.getUserChallengeCount())
+    //                    .userChallengeState(userChallengeDto.getUserChallengeState())
                     .build());
+                log.info("add challenge list");
+                return true;
+            } else { // 신청 정보가 있을 경우
+                Long id = userChallengeRepository.findByChallengeIdAndUserId(
+                        userChallengeDto.getChallengeId(), userChallengeDto.getUserId()
+                ).get().getId();
+                userChallengeRepository.deleteById(id);
+                log.info("cancel");
+                return false;
+            }
         } else {
-            log.error("already exists.");
-            return null;
+            return false;
         }
     }
 
