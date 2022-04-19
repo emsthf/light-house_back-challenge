@@ -46,5 +46,10 @@ public class UserChallengeController {
     public Long countByChallengeId(@PathVariable Long challengeId) {
         return userChallengeService.countByChallengeId(challengeId);
     }
+
+    @GetMapping("/mychallenge/list/{userId}")
+    public List<UserChallenge> findAllByUserId(@PathVariable Long userId) {
+        return userChallengeService.findByUserIdOrderByIdDesc(userId);
+    }
 }
 

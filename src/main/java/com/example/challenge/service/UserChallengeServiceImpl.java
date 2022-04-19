@@ -114,6 +114,11 @@ public class UserChallengeServiceImpl implements UserChallengeService {
         return userChallengeRepository.findAll();
     }
 
+    @Override
+    public List<UserChallenge> findByUserIdOrderByIdDesc(Long userId) {
+        return userChallengeRepository.findByUserIdOrderByIdDesc(userId);
+    }
+
     @Transactional
     @Override
     public Optional<UserChallenge> getChallengeListById(Long id) {

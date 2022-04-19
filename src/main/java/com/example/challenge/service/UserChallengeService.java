@@ -13,4 +13,5 @@ public interface UserChallengeService {
     Optional<UserChallenge> getChallengeListById(Long id);
     void delChallengeList(Long id);
     Long countByChallengeId(Long challengeId);
+    List<UserChallenge> findByUserIdOrderByIdDesc(Long userId);
 }
