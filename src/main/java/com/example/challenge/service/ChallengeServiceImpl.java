@@ -6,6 +6,7 @@ import com.example.challenge.model.UserChallenge;
 import com.example.challenge.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,6 @@ public class ChallengeServiceImpl implements ChallengeService{
         }
 //        log.info("totalCount : {}", totalCount);
         challengeRepository.save(Challenge.builder()
-                .id(null)
                 .challengeTitle(challengeDto.getChallengeTitle())
                 .challengeDesc(challengeDto.getChallengeDesc())
                 .challengeImg(challengeDto.getChallengeImg())
@@ -82,7 +82,8 @@ public class ChallengeServiceImpl implements ChallengeService{
     @Override //getAll 챌린지
     public List<Challenge> getAllChallenge() {
         log.info("get all challenge");
-        return challengeRepository.findAll();
+        // 최신순으로 정렬
+        return challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     @Transactional
@@ -96,7 +97,9 @@ public class ChallengeServiceImpl implements ChallengeService{
     @Override //챌린지 삭제
     public void delChallenge(Long id) {
         log.info("delete challenge by id {}.", id);
-        challengeRepository.deleteById(id);
+        if(challengeRepository.findById(id).isPresent()) {
+            challengeRepository.deleteById(id);
+        }
     }
 
 
