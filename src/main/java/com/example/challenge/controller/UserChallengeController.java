@@ -19,11 +19,7 @@ public class UserChallengeController {
 
     @PostMapping("/mychallenge")
     public String add(@RequestBody UserChallengeDto challengeListDto){
-        if(userChallengeService.addChallengeList(challengeListDto)) {
-            return "신청이 완료되었습니다.";
-        } else {
-            return "챌린지 신청이 취소되었습니다.";
-        }
+        return userChallengeService.addChallengeList(challengeListDto);
     }
 
     @PutMapping("/mychallenge/{id}")
@@ -50,6 +46,11 @@ public class UserChallengeController {
     @GetMapping("/mychallenge/list/{userId}")
     public List<UserChallenge> findAllByUserId(@PathVariable Long userId) {
         return userChallengeService.findByUserIdOrderByIdDesc(userId);
+    }
+
+    @GetMapping("/mychallenge/{challengeId}/{userId}")
+    public UserChallenge findByChallnegeIdAndUserId(@PathVariable Long challengeId, @PathVariable Long userId) {
+        return userChallengeService.findByChallengeIdAndUserId(challengeId, userId).get();
     }
 }
 
