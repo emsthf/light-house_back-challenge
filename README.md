@@ -1,1 +1,0 @@
-# light-house_back-challenge
