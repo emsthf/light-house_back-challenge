@@ -1,7 +1,5 @@
 package com.example.challenge.service;
 
-
-
 import com.example.challenge.model.Doing;
 
 import java.time.LocalDate;

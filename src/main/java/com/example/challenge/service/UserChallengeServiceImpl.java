@@ -26,7 +26,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 
     @Transactional
     @Override
-    public boolean addChallengeList(UserChallengeDto userChallengeDto) {
+    public String addChallengeList(UserChallengeDto userChallengeDto) {
         Challenge challenge = challengeService.getChallengeById(userChallengeDto.getChallengeId()).get();
         
         if(LocalDate.now().isBefore(challenge.getStartDay())) { // 챌린지 시작일 이전일까지만 신청
@@ -41,17 +41,17 @@ public class UserChallengeServiceImpl implements UserChallengeService {
     //                    .userChallengeState(userChallengeDto.getUserChallengeState())
                     .build());
                 log.info("add challenge list");
-                return true;
+                return "신청이 완료되었습니다.";
             } else { // 신청 정보가 있을 경우
                 Long id = userChallengeRepository.findByChallengeIdAndUserId(
                         userChallengeDto.getChallengeId(), userChallengeDto.getUserId()
                 ).get().getId();
                 userChallengeRepository.deleteById(id);
                 log.info("cancel");
-                return false;
+                return "챌린지 신청이 취소되었습니다.";
             }
         } else {
-            return false;
+            return "신청할 수 없는 챌린지입니다.";
         }
     }
 
@@ -117,6 +117,11 @@ public class UserChallengeServiceImpl implements UserChallengeService {
     @Override
     public List<UserChallenge> findByUserIdOrderByIdDesc(Long userId) {
         return userChallengeRepository.findByUserIdOrderByIdDesc(userId);
+    }
+
+    @Override
+    public Optional<UserChallenge> findByChallengeIdAndUserId(Long challengeId, Long userId) {
+        return Optional.ofNullable(userChallengeRepository.findByChallengeIdAndUserId(challengeId, userId).get());
     }
 
     @Transactional
