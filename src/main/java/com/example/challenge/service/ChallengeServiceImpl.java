@@ -40,6 +40,11 @@ public class ChallengeServiceImpl implements ChallengeService{
         } else {
             totalCount = totalWeekCount + remainderDay;
         }
+
+        int state = 1;
+        if(challengeDto.getStartDay().isEqual(LocalDate.now()) || challengeDto.getStartDay().isAfter(LocalDate.now())) {
+            state = 0; // 챌린지 시작일이 현재 날짜와 같거나 그 이후인 경우에만 진행 중으로 표시
+        }
 //        log.info("totalCount : {}", totalCount);
         challengeRepository.save(Challenge.builder()
                 .challengeTitle(challengeDto.getChallengeTitle())
@@ -50,7 +55,7 @@ public class ChallengeServiceImpl implements ChallengeService{
                 .period(challengeDto.getPeriod())
                 .weekCount(challengeDto.getWeekCount())
                 .totalCount(totalCount)
-                .challengeState(challengeDto.getChallengeState())
+                .challengeState(state)
                 .build());
     }
 
